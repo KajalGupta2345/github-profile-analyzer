@@ -7,7 +7,13 @@ const analyzeProfile = async (req, res) => {
 
         // 1. Fetch GitHub data
         const { data } = await axios.get(
-            `https://api.github.com/users/${username}`
+            `https://api.github.com/users/${username}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+                    Accept: "application/vnd.github+json"
+                }
+            }
         );
 
         // 2. Simple insights (IMPORTANT ADDITION 🔥)
@@ -21,8 +27,8 @@ const analyzeProfile = async (req, res) => {
 
         const popularity =
             data.followers > 500 ? "HIGH" :
-            data.followers > 100 ? "MEDIUM" :
-            "LOW";
+                data.followers > 100 ? "MEDIUM" :
+                    "LOW";
 
         // 3. Save in DB
         const sql = `
@@ -65,13 +71,13 @@ const analyzeProfile = async (req, res) => {
             }
         });
 
-   } catch (error) {
-    return res.status(500).json({
-        success: false,
-        message: error.message,
-        code: error.code  // ye add karo
-    });
-}
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+            code: error.code  // ye add karo
+        });
+    }
 };
 
 const getAllProfiles = async (req, res) => {
@@ -121,4 +127,4 @@ const getProfileByUsername = async (req, res) => {
         });
     }
 };
-module.exports = { analyzeProfile ,getAllProfiles,getProfileByUsername };
+module.exports = { analyzeProfile, getAllProfiles, getProfileByUsername };
