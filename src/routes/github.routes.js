@@ -7,7 +7,7 @@ const {
     getProfileByUsername
 } = require("../controllers/github.controllers");
 
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
     res.json({
         message: "GitHub Profile Analyzer API is running"
     });
