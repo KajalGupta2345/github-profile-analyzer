@@ -65,12 +65,13 @@ const analyzeProfile = async (req, res) => {
             }
         });
 
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
+   } catch (error) {
+    return res.status(500).json({
+        success: false,
+        message: error.message,
+        code: error.code  // ye add karo
+    });
+}
 };
 
 const getAllProfiles = async (req, res) => {
